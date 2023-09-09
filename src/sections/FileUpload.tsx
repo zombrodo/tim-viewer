@@ -1,5 +1,4 @@
 import { FileAction, useFileState } from "../contexts/FileContext";
-import FileDropZone from "../components/FileDropZone";
 import { parse } from "@zombrodo/tim-parser";
 
 async function parseFile(file: File) {
@@ -25,31 +24,25 @@ export default function FileUpload() {
   };
 
   return (
-    <FileDropZone
-      onDragEnd={() => null}
-      onDragOver={() => null}
-      onFileDrop={onFileUpload}
-    >
-      <div className="p-4 w-full h-full">
-        <div
-          className={`w-full h-full flex flex-col gap-2 items-center justify-center`}
+    <div className="p-4 w-full h-full">
+      <div
+        className={`w-full h-full flex flex-col gap-2 items-center justify-center`}
+      >
+        <h2 className="text-2xl italic">Drag and drop your files here</h2>
+        <label
+          htmlFor="file-upload"
+          className="italic underline cursor-pointer"
         >
-          <h2 className="text-2xl italic">Drag and drop your files here</h2>
-          <label
-            htmlFor="file-upload"
-            className="italic underline cursor-pointer"
-          >
-            Or click here to open the file browser
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            hidden
-            multiple
-            onChange={(evt) => onFileUpload(evt.target.files)}
-          />
-        </div>
+          Or click here to open the file browser
+        </label>
+        <input
+          id="file-upload"
+          type="file"
+          hidden
+          multiple
+          onChange={(evt) => onFileUpload(evt.target.files)}
+        />
       </div>
-    </FileDropZone>
+    </div>
   );
 }

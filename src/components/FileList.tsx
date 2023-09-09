@@ -81,7 +81,7 @@ export default function FileList({
   onItemSelect,
 }: FileListProps) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full last:pb-4">
       {files.map((f, i) => (
         <FileListItem
           file={f}

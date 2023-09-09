@@ -2,8 +2,6 @@ import { PropsWithChildren, DragEvent } from "react";
 
 export interface FileDropZoneProps {
   onFileDrop(files: FileList): void;
-  onDragOver(): void;
-  onDragEnd(): void;
 }
 
 function preventDragDefaults<T extends Function>(fn: T) {
@@ -16,8 +14,6 @@ function preventDragDefaults<T extends Function>(fn: T) {
 
 export default function FileDropZone({
   onFileDrop,
-  onDragOver: onDragEnter,
-  onDragEnd: onDragExit,
   children,
 }: PropsWithChildren<FileDropZoneProps>) {
   const onDrop = (event: DragEvent) => {
@@ -25,15 +21,15 @@ export default function FileDropZone({
     if (data) {
       onFileDrop(data);
     }
-
-    onDragExit()
   };
 
   return (
     <div
-      className="w-full h-full"
-      onDragOver={preventDragDefaults(onDragEnter)}
-      onDragEnd={preventDragDefaults(onDragExit)}
+      id="file-drop-zone"
+      className="w-full h-full bg-transparent"
+      onDragOver={preventDragDefaults(() => null)}
+      onDragEnd={preventDragDefaults(() => null)}
+      onDrag={preventDragDefaults(() => null)}
       onDrop={preventDragDefaults(onDrop)}
     >
       {children}
