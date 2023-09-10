@@ -4,7 +4,7 @@
 * [ ] Add / Remove on the left
 * [ ] Scale options
 * [ ] Scroll to scale?
-* [ ] Darkmode options
-* [ ] Download as PNG
-* [ ] Restyle
-* [ ] Save lists into local storage
+* [x] Darkmode options
+* [x] Download as PNG
+* [x] Restyle
+* [~] ~~Save lists into local storage~~ replaced in favour of warning

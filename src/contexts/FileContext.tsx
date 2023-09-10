@@ -3,6 +3,7 @@ import {
   PropsWithChildren,
   createContext,
   useContext,
+  useEffect,
   useReducer,
 } from "react";
 
@@ -63,6 +64,15 @@ export function useSelectedFile() {
 
 export default function FileContextProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    if (state.files.length > 0) {
+      window.addEventListener("beforeunload", (event) => {
+        event.returnValue = true;
+      });
+    }
+  }, [state.files]);
+
   return (
     <FileContext.Provider
       value={{
