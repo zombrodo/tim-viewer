@@ -9,6 +9,7 @@ import {
 export interface TimFile {
   file: File;
   data: TimImage;
+  bitmap: ImageBitmap;
 }
 
 interface FileState {
@@ -53,6 +54,11 @@ function reducer(state: FileState, action: Action) {
 export function useFileState() {
   const context = useContext(FileContext);
   return context;
+}
+
+export function useSelectedFile() {
+  const { state } = useFileState();
+  return state.files[state.selected];
 }
 
 export default function FileContextProvider({ children }: PropsWithChildren) {

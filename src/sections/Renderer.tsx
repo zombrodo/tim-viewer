@@ -1,42 +1,14 @@
-import { TimImage } from "@zombrodo/tim-parser";
 import { TimFile } from "../contexts/FileContext";
 import { useEffect, useRef } from "react";
-import { renderClut } from "../utils/render";
-import { determineWidth } from "../utils/tim";
 
 interface RendererProps {
   file: TimFile;
 }
 
-// function renderPixels(
-//   context: CanvasRenderingContext2D,
-//   data: TimImage,
-//   width: number,
-//   height: number
-// ) {
-//   // NYI
-// }
-
-function renderImage(
-  context: CanvasRenderingContext2D,
-  data: TimImage,
-  width: number,
-  height: number
-) {
-  // First, lets clear what we have.
-  context.clearRect(0, 0, width, height);
-  // Next, we have to work out how we're drawing.
-  if (data.flags.cf) {
-    renderClut(context, data, width, 2);
-  }
-
-  // renderPixels(context, data, width, height);
-}
-
 export default function Renderer({ file }: RendererProps) {
-  const { data } = file;
-  const width = determineWidth(data);
-  const height = data.pixels.h;
+  const { bitmap } = file;
+  const scale = 2;
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -44,14 +16,22 @@ export default function Renderer({ file }: RendererProps) {
       const context = canvasRef.current.getContext("2d");
       if (context) {
         context.clearRect(0, 0, 1024, 1024);
-        renderImage(context, data, width, height);
+        context.drawImage(
+          bitmap,
+          0,
+          0,
+          bitmap.width * scale,
+          bitmap.height * scale
+        );
       }
     }
-  }, [canvasRef.current, data]);
+  }, [canvasRef.current, bitmap]);
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
-      <canvas width={width * 2} height={height * 2} ref={canvasRef}></canvas>
-    </div>
+    <canvas
+      width={bitmap.width * scale}
+      height={bitmap.height * scale}
+      ref={canvasRef}
+    ></canvas>
   );
 }
