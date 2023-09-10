@@ -131,8 +131,8 @@ function FileThumbnail({ file, onSelect, isSelected }: FileThumbnailProps) {
   return (
     <div
       className={`${
-        isSelected ? "bg-orangered-200" : "bg-burnt-200"
-      } hover:bg-burnt-100 p-1`}
+        isSelected ? "bg-orangered-200 dark:bg-slate-600" : "bg-burnt-200 dark:bg-slate-500"
+      } hover:bg-burnt-100 dark:hover:bg-slate-100 p-1`}
       onClick={onSelect}
     >
       <canvas width={64} height={64} ref={canvasRef}></canvas>
