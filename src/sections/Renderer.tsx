@@ -31,12 +31,9 @@ export default function Renderer({ file }: RendererProps) {
   }, [canvasRef.current, bitmap]);
 
   return (
-    <div
-      className={`p-8 ${darkMode ? "bg-transparent" : "bg-burnt-50"} ${
-        showBorder ? "border-4 border-orangered-400" : ""
-      }`}
-    >
+    <div className={`p-8 ${darkMode ? "bg-transparent" : "bg-burnt-50"} `}>
       <canvas
+        className={`${showBorder ? "border-4 border-orangered-400" : ""}`}
         width={bitmap.width * scale}
         height={bitmap.height * scale}
         ref={canvasRef}
