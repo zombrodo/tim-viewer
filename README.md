@@ -12,3 +12,7 @@ The most notable missing feature is that the 24-bit and 15-bit `pmode`s are
 If you want to know more, [I've written a post about how you might go about
 parsing one in Typescript](https://jackrobinson.co.nz/blog/tim-image-parsing/)
 (which is what this uses under the hood!)
+
+## Demo
+
+https://jackrobinson.co.nz/tim-viewer
