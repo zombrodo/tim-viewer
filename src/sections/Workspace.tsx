@@ -35,7 +35,7 @@ function FileAttribute({
 }: PropsWithChildren<FileAttributeProps>) {
   return (
     <p className="text-sm">
-      <span className="font-bold">{title}</span>: {children}
+      <span className="font-bold dark:text-burnt-100">{title}</span>: {children}
     </p>
   );
 }
@@ -70,38 +70,42 @@ function FileInfo() {
   };
 
   return (
-    <div className="col-span-1 flex flex-col gap-2 p-2">
+    <div className="p-4 dark:bg-slate-800 bg-burnt-200 rounded gap-2">
+      <div className="flex flex-col xl:flex-row justify-between items-center gap-2">
       <h2 className="text-orangered-400 font-bold text-xl">
         {selectedFile.file.name}
       </h2>
-      <FileAttribute title="Has CLUT?">
-        {selectedFile.data.flags.cf === 1 ? "Yes" : "No"}
-      </FileAttribute>
-      <FileAttribute title="Pixel Mode">
-        {pmode(selectedFile.data.flags.pmode)}
-      </FileAttribute>
-      <FileAttribute title="Width">
-        {`${determineWidth(selectedFile.data)}px`}
-      </FileAttribute>
-      <FileAttribute title="Height">
-        {`${selectedFile.data.pixels.h}px`}
-      </FileAttribute>
-      <FileAttribute title="Size">
-        {filesize(selectedFile.file.size)}
-      </FileAttribute>
-      <div className="flex flex-col gap-2">
-        <button
-          className="bg-orangered-400 hover:bg-orangered-200 p-2 rounded text-white text-sm"
-          onClick={onDarkModeSwitch}
-        >
-          Toggle Light / Dark Mode
-        </button>
-        <button
-          className="bg-orangered-400 hover:bg-orangered-200 p-2 rounded text-white text-sm"
-          onClick={onSave}
-        >
-          Save as PNG
-        </button>
+        <div className="flex gap-2 flex-wrap">
+          <FileAttribute title="Has CLUT?">
+            {selectedFile.data.flags.cf === 1 ? "Yes" : "No"}
+          </FileAttribute>
+          <FileAttribute title="Pixel Mode">
+            {pmode(selectedFile.data.flags.pmode)}
+          </FileAttribute>
+          <FileAttribute title="Width">
+            {`${determineWidth(selectedFile.data)}px`}
+          </FileAttribute>
+          <FileAttribute title="Height">
+            {`${selectedFile.data.pixels.h}px`}
+          </FileAttribute>
+          <FileAttribute title="Size">
+            {filesize(selectedFile.file.size)}
+          </FileAttribute>
+        </div>
+        <div className="flex gap-2 flex-1 justify-end">
+          <button
+            className="bg-orangered-400 hover:bg-orangered-200 p-2 rounded text-white text-sm"
+            onClick={onSave}
+          >
+            Save as PNG
+          </button>
+          <button
+            className="bg-orangered-400 hover:bg-orangered-200 p-2 rounded text-white text-sm"
+            onClick={onDarkModeSwitch}
+          >
+            Toggle Light/Dark Background
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -131,7 +135,9 @@ function FileThumbnail({ file, onSelect, isSelected }: FileThumbnailProps) {
   return (
     <div
       className={`${
-        isSelected ? "bg-orangered-200 dark:bg-slate-600" : "bg-burnt-200 dark:bg-slate-500"
+        isSelected
+          ? "bg-orangered-200 dark:bg-slate-600"
+          : "bg-burnt-200 dark:bg-slate-500"
       } hover:bg-burnt-100 dark:hover:bg-slate-100 p-1`}
       onClick={onSelect}
     >
@@ -148,8 +154,8 @@ function FilesList() {
   }
 
   return (
-    <div className="col-span-2 p-2">
-      <div className="flex flex-wrap gap-1">
+    <div className="p-4 dark:bg-slate-800 rounded flex justify-center items-start">
+      <div className="flex flex-wrap gap-1 flex-grow-0">
         {files.map((file, i) => (
           <FileThumbnail
             file={file}
@@ -167,9 +173,9 @@ function FileViewer() {
   const currentFile = useSelectedFile();
 
   return (
-    <div className="w-full h-full grid grid-cols-8 py-2">
+    <div className="w-full flex-grow flex flex-col justify-between py-2">
       <FileInfo />
-      <div className="col-span-5 flex flex-col items-center justify-center gap-4 p-4">
+      <div className="flex flex-col items-center justify-center gap-4 p-4">
         <Renderer file={currentFile} />
       </div>
       <FilesList />
