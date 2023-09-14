@@ -8,6 +8,7 @@ interface RendererProps {
 
 export default function Renderer({ file }: RendererProps) {
   const darkMode = useEditorSetting("darkMode");
+  const showBorder = useEditorSetting("showBorder");
   const { bitmap } = file;
   const scale = 2;
 
@@ -30,12 +31,16 @@ export default function Renderer({ file }: RendererProps) {
   }, [canvasRef.current, bitmap]);
 
   return (
-    <div className={`p-8 ${darkMode ? "bg-transparent" : "bg-burnt-50"}`}>
-    <canvas
-      width={bitmap.width * scale}
-      height={bitmap.height * scale}
-      ref={canvasRef}
-    ></canvas>
+    <div
+      className={`p-8 ${darkMode ? "bg-transparent" : "bg-burnt-50"} ${
+        showBorder ? "border-4 border-orangered-400" : ""
+      }`}
+    >
+      <canvas
+        width={bitmap.width * scale}
+        height={bitmap.height * scale}
+        ref={canvasRef}
+      ></canvas>
     </div>
   );
 }

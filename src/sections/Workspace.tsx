@@ -9,7 +9,10 @@ import Renderer from "./Renderer";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { determineWidth } from "../utils/tim";
 import { filesize } from "filesize";
-import { EditorSettingsAction, useEditorSettings } from "../contexts/EditorSettingsContext";
+import {
+  EditorSettingsAction,
+  useEditorSettings,
+} from "../contexts/EditorSettingsContext";
 
 interface FileAttributeProps {
   title: string;
@@ -45,8 +48,18 @@ function FileInfo() {
   const selectedFile = useSelectedFile();
   const { state, dispatch } = useEditorSettings();
 
-  const onDarkModeSwitch = () => {
-    dispatch({ type: EditorSettingsAction.SetDarkMode, payload: !state.darkMode})
+  const onDarkModeToggle = () => {
+    dispatch({
+      type: EditorSettingsAction.SetDarkMode,
+      payload: !state.darkMode,
+    });
+  };
+
+  const onBorderToggle = () => {
+    dispatch({
+      type: EditorSettingsAction.SetShowBorder,
+      payload: !state.showBorder,
+    });
   };
 
   const onSave = () => {
@@ -68,10 +81,10 @@ function FileInfo() {
 
   return (
     <div className="p-4 dark:bg-slate-800 bg-burnt-200 rounded gap-2">
-      <div className="flex flex-col xl:flex-row justify-between items-center gap-2">
-      <h2 className="text-orangered-400 font-bold text-xl">
-        {selectedFile.file.name}
-      </h2>
+      <div className="flex flex-col min-[1920px]:flex-row justify-between items-center gap-2">
+        <h2 className="text-orangered-400 font-bold text-xl">
+          {selectedFile.file.name}
+        </h2>
         <div className="flex gap-2 flex-wrap">
           <FileAttribute title="Has CLUT?">
             {selectedFile.data.flags.cf === 1 ? "Yes" : "No"}
@@ -88,6 +101,18 @@ function FileInfo() {
           <FileAttribute title="Size">
             {filesize(selectedFile.file.size)}
           </FileAttribute>
+          <FileAttribute title="Pixel DX">
+            {selectedFile.data.pixels.dx}
+          </FileAttribute>
+          <FileAttribute title="Pixel DY">
+            {selectedFile.data.pixels.dy}
+          </FileAttribute>
+          <FileAttribute title="CLUT DX">
+            {selectedFile.data.clut?.dx}
+          </FileAttribute>
+          <FileAttribute title="CLUT DY">
+            {selectedFile.data.clut?.dy}
+          </FileAttribute>
         </div>
         <div className="flex gap-2 flex-1 justify-end">
           <button
@@ -98,9 +123,15 @@ function FileInfo() {
           </button>
           <button
             className="bg-orangered-400 hover:bg-orangered-200 p-2 rounded text-white text-sm"
-            onClick={onDarkModeSwitch}
+            onClick={onBorderToggle}
           >
-            Toggle Light/Dark Background
+            {state.showBorder ? "Hide Border" : "Show Border"}
+          </button>
+          <button
+            className="bg-orangered-400 hover:bg-orangered-200 p-2 rounded text-white text-sm"
+            onClick={onDarkModeToggle}
+          >
+            {state.darkMode ? "Show Light Background" : "Show Dark Background"}
           </button>
         </div>
       </div>

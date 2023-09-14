@@ -1,13 +1,22 @@
-import { PropsWithChildren, createContext, useContext, useReducer } from "react";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useReducer,
+} from "react";
 
 export enum EditorSettingsAction {
   SetDarkMode,
+  SetShowBorder,
 }
 
-type Action = { type: EditorSettingsAction.SetDarkMode; payload: boolean };
+type Action =
+  | { type: EditorSettingsAction.SetDarkMode; payload: boolean }
+  | { type: EditorSettingsAction.SetShowBorder; payload: boolean };
 
 interface EditorSettings {
   darkMode: boolean;
+  showBorder: boolean;
 }
 
 interface EditorSettingsContext {
@@ -17,6 +26,7 @@ interface EditorSettingsContext {
 
 const initialState = {
   darkMode: true,
+  showBorder: false,
 };
 
 const defaultState = {
@@ -34,6 +44,8 @@ function reducer(state: EditorSettings, action: Action) {
   switch (action.type) {
     case EditorSettingsAction.SetDarkMode:
       return { ...state, darkMode: action.payload };
+    case EditorSettingsAction.SetShowBorder:
+      return { ...state, showBorder: action.payload };
   }
 }
 
@@ -41,7 +53,7 @@ export function useEditorSettings() {
   return useContext(EditorSettingsContext);
 }
 
-export function useEditorSetting(setting: keyof(EditorSettings)) {
+export function useEditorSetting(setting: keyof EditorSettings) {
   const { state } = useContext(EditorSettingsContext);
   return state[setting];
 }
