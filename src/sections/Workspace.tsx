@@ -9,6 +9,7 @@ import Renderer from "./Renderer";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { determineWidth } from "../utils/tim";
 import { filesize } from "filesize";
+import { EditorSettingsAction, useEditorSettings } from "../contexts/EditorSettingsContext";
 
 interface FileAttributeProps {
   title: string;
@@ -42,14 +43,10 @@ function FileAttribute({
 
 function FileInfo() {
   const selectedFile = useSelectedFile();
+  const { state, dispatch } = useEditorSettings();
 
   const onDarkModeSwitch = () => {
-    const document = window.document;
-    if (document.documentElement.classList.contains("dark")) {
-      document.documentElement.classList.remove("dark");
-    } else {
-      document.documentElement.classList.add("dark");
-    }
+    dispatch({ type: EditorSettingsAction.SetDarkMode, payload: !state.darkMode})
   };
 
   const onSave = () => {
